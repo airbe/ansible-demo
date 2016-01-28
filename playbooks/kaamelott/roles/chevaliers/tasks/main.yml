@@ -1,13 +1,18 @@
 - group: name=chevaliers state=present
 
-- user: name=perceval state=present group=chevaliers
+- user: name=perceval state=present group=chevaliers groups=wheel,staff
 
 - user: name=caradoc state=present group=chevaliers
 
 - user: name=cadoc state=present group=chevaliers
 
-- authorized_key: user=perceval key="ssh-ed25519 AAAAC3NzaC1lZDI1RTE5AAAAIPH58TUP29+UUdGVM8X3z7bz5m1lZpCz7OZuftpwzw1h perceval@kaamelott"
+- authorized_key: user=perceval exclusive=yes key="ssh-ed25519 AAAAC3NzaC1lZDI1RTE5AAAAIPH58TUP29+UUdGVM8X3z7bz5m1lZpCz7OZuftpwzw1h perceval@kaamelott"
 
 - authorized_key: user=caradoc key="ssh-ed25519 AAAAC3NzaR1lZDI1NTE5AAAAIPH58TUP29+UUdGVM8X3z7bz5m1lZpCz7OZuftpwzw2h caradoc@kaamelott"
 
-- authorized_key: user=cadoc key="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPH58TUP29+RUdGVM8X3z7bz5m1lZpCz7OZuftpwzw3h cadoc@kaamelott"
+- authorized_key: user=cadoc state=present key="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5FUCKIPH58TUP29+RUdGVM8X3z7bz5m1lZpCz7OZuftpwzw3h cadoc@kaamelott"
+
+- authorized_key: user=cadoc state=absent key="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPH58TUP29+RUdGVM8X3z7bz5m1lZpCz7OZuftpwzw3h cadoc@kaamelott"
+
+- lineinfile: "dest=/usr/local/etc/sudoers state=present regexp='^%staff' line='%staff ALL=(ALL) ALL' validate='visudo -cf %s'"
+
