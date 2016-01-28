@@ -1,0 +1,1 @@
+influxd_opts: '-join influxdb1:8088,influxdb2:8088'

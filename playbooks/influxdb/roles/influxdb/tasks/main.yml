@@ -1,0 +1,35 @@
+---
+
+- pkgng: name=influxdb state=present
+
+- name: "Build hosts file"
+  lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_default_ipv4.address }} {{ item }}" state=present
+  when: hostvars[item].ansible_default_ipv4.address is defined
+  with_items: groups['influxdb']
+
+- template: src=influxd.conf dest=/usr/local/etc/influxd.conf owner=root group=wheel
+  notify: restart-influxdb
+
+- template: src=influxd.conf dest=/usr/local/etc/influxd.conf owner=root group=wheel
+  notify: restart-influxdb
+
+- name: rc.d file
+  copy: src=influxd dest=/usr/local/etc/rc.d/influxd mode=0755 owner=root group=wheel
+
+- file: path=/opt/influxdb state=directory mode=0750 owner=influxd group=influxd
+
+- file: path=/opt/influxdb/meta state=directory mode=0750 owner=influxd group=influxd
+
+- file: path=/opt/influxdb/data state=directory mode=0750 owner=influxd group=influxd
+
+- file: path=/opt/influxdb/wal state=directory mode=0750 owner=influxd group=influxd
+
+- file: path=/opt/influxdb/hh state=directory mode=0750 owner=influxd group=influxd
+
+- lineinfile: dest=/etc/rc.conf regexp=^influxd_enable= line="influxd_enable=\"YES\""
+  notify: restart-influxdb
+
+- lineinfile: dest=/etc/rc.conf regexp="^influxd_opts=\"{{influxd_opts}}\"" line="influxd_opts=\"{{influxd_opts}}\""
+  notify: restart-influxdb
+
+- service: name=influxd state=started
