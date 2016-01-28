@@ -1,0 +1,6 @@
+[all:vars]
+ansible_python_interpreter=/usr/local/bin/python
+ansible_os_family=Freebsd
+
+[kaamelott]
+kaamelott ansible_host=192.168.1.173

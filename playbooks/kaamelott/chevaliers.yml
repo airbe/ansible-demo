@@ -1,0 +1,6 @@
+- hosts: kaamelott
+  become: yes
+  become_method: sudo
+  gather_facts: no
+  roles:
+    - chevaliers
