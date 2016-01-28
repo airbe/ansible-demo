@@ -1,3 +1,5 @@
+---
+
 - group: name=enchanteur state=present
 
 - user: name=merlin state=present group=enchanteur

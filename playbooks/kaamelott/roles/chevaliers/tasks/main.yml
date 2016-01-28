@@ -1,3 +1,5 @@
+---
+
 - group: name=chevaliers state=present
 
 - user: name=perceval state=present group=chevaliers groups=wheel,staff

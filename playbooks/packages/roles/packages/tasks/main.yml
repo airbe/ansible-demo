@@ -1,0 +1,9 @@
+---
+
+- apt: update_cache=yes
+
+- apt: name=vim state=latest
+
+- apt: name=lsof state=latest
+
+- apt: upgrade=safe
